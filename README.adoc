@@ -25,9 +25,9 @@ connected by a private _software defined network_ (SDN) which can be
 implemented either with http://openvswitch.org/[OpenVSwitch] or https://github.com/coreos/flannel[Flannel].
 
 A _bastion server_ is used to control the host and service
-configuration.  It can also run local DNS services as
-needed. The host and service configuration is run using
-https://www.ansible.com/[Ansible] playbooks executed from the bastion host.
+configuration. The host and service configuration is run using
+https://www.ansible.com/[Ansible] playbooks executed from the bastion
+host.
 
 _Bastion server_, _master nodes_ and _infra nodes_ is also given a _floating IP_
 address on the public network. This provides direct access to the
@@ -479,6 +479,17 @@ and `router_ip` is `172.24.4.168` there should be a DNS record for domain
 The above DNS records should be set on the DNS server authoritative for the
 domain used in OpenShift cluster (`example.com` in the example above).
 ====
+
+
+=== Dynamic DNS Updates
+
+If your DNS servers support dynamic updates (as defined in RFC 2136),
+you can pass the update key in the `dns_update_key` parameter and each
+node will register its internal IP address to all the DNS servers in
+the `dns_nameserver` list.
+
+You will still need to set the API and wildcard entries, though.
+
 
 == Retrieving the CA certificate
 
