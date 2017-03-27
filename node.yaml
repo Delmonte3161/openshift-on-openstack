@@ -193,13 +193,11 @@ parameters:
     description: >
       The IP address of the first master node (used instead of external LB during setup)
     type: string
-    default: ''
 
   lb_hostname:
     description: >
       The hostname of the load balancer feeding the OpenShift master traffic
     type: string
-    default: ''
 
   loadbalancer_type:
     type: string
@@ -401,6 +399,7 @@ resources:
       - config: {get_resource: set_extra_docker_repos}
       - config: {get_resource: host_update}
       - config: {get_resource: add_dns_record}
+      - config: {get_resource: add_api_dns_record}
       - config: {get_resource: node_boot}
 
   # Compose the node identifiers: hostname and FQDN: provide them to cloud-init
@@ -514,9 +513,22 @@ resources:
       config:
         str_replace:
           params:
+            '%HOSTNAME%': ""  # Use host's FQDN
             '%DNS_SERVERS%': {list_join: [" ", {get_param: dns_servers}]}
             '%DNS_UPDATE_KEY%': {get_param: dns_update_key}
             '%IP_ADDRESS%': {get_attr: [port, fixed_ips, 0, ip_address]}
+          template: {get_file: fragments/add_dns_record.sh}
+
+  add_api_dns_record:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      config:
+        str_replace:
+          params:
+            '%HOSTNAME%': {get_param: lb_hostname}
+            '%DNS_SERVERS%': {list_join: [" ", {get_param: dns_servers}]}
+            '%DNS_UPDATE_KEY%': {get_param: dns_update_key}
+            '%IP_ADDRESS%': {get_param: master_ip}
           template: {get_file: fragments/add_dns_record.sh}
 
 

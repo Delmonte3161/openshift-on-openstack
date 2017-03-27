@@ -403,6 +403,7 @@ resources:
       config:
         str_replace:
           params:
+            '%HOSTNAME%': ""  # Use host's FQDN
             '%DNS_SERVERS%': {list_join: [" ", {get_param: dns_servers}]}
             '%DNS_UPDATE_KEY%': {get_param: dns_update_key}
             '%IP_ADDRESS%': {get_attr: [port, fixed_ips, 0, ip_address]}

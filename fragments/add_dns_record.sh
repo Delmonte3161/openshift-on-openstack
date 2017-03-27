@@ -18,7 +18,8 @@ else
     retry yum -y install python2-dns
 fi
 
-HOSTNAME="$(hostname --fqdn)"
+HOSTNAME="%HOSTNAME%"
+HOSTNAME="${HOSTNAME:-$(hostname --fqdn)}"
 
 for DNS_SERVER in "%DNS_SERVERS%"; do
     # NOTE: the dot after the hostname is necessary
