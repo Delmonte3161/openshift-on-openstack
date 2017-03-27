@@ -82,7 +82,7 @@ have to deploy one yourself.
 We have provided a separate repository that can deploy a DNS server
 suitable for OpenShift:
 
-https://github.com/markllama/dns-service-heat
+https://github.com/openshift/openshift-ansible-contrib/tree/master/reference-architecture/osp-dns
 
 NOTE: If your DNS supports dynamic updates via RFC 2136, you can pass
 the update key to the Heat stack and all nodes will register
