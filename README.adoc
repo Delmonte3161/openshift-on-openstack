@@ -68,6 +68,28 @@ inter-node communication).
 
 CentOS and RHEL are the only tested distros for now.
 
+=== DNS Server
+
+The OpenShift installer requires that all nodes be reachable via their
+hostnames. Since OpenStack does not currently provide an internal name
+resolution, this needs to be done with an external DNS service that
+all nodes use via the `dns_nameserver` parameter.
+
+In a production deployment this would be your existing DNS, but if you
+don't have the ability to update it to add new name records, you will
+have to deploy one yourself.
+
+We have provided a separate repository that can deploy a DNS server
+suitable for OpenShift:
+
+https://github.com/markllama/dns-service-heat
+
+NOTE: If your DNS supports dynamic updates via RFC 2136, you can pass
+the update key to the Heat stack and all nodes will register
+themselves as they come up. Otherwise, you will have to update your
+DNS records manually.
+
+
 === Red Hat Software Repositories
 
 When installing OpenShift Container Platform on RHEL the OpenShift and
